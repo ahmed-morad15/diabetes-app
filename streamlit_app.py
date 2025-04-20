@@ -75,7 +75,7 @@ def prediction_page():
         }
 
         try:
-            response = requests.post("http://127.0.0.1:5000/predict", json=payload)
+            response = requests.post(f"{API_URL}/predict", json=payload)
             result_json = response.json()
 
             if "diabetes_prediction" in result_json:
