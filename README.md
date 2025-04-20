@@ -5,8 +5,8 @@ The **Diabetic Prediction System** is a sophisticated web application powered by
 ## Key Features
 
 - **Diabetes Prediction**: Accurately predict if a person is diabetic or healthy using a pre-trained machine learning model based on their medical inputs such as age, BMI, blood glucose levels, and more.
-- **Personalized Medical Advice**: Receive actionable and tailored advice regarding lifestyle, diet, and management strategies to handle diabetes based on the Q&A interaction history.
 - **Dynamic Question Generation**: Generate contextually relevant follow-up questions for diabetic patients, adapting to their previous answers for a more personalized experience.
+- **Personalized Medical Advice**: Receive actionable and tailored advice regarding lifestyle, diet, and management strategies to handle diabetes based on the Q&A interaction history.
 - **Chatbot for Continuous Support**: Engage with a friendly chatbot that provides concise and helpful responses regarding diabetes care, offering general guidance on diabetes management.
 
 ## Project Overview
