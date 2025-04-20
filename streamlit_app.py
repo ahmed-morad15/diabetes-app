@@ -3,7 +3,7 @@ import requests
 import time
 
 # API URL
-API_URL = "http://localhost:5000"
+API_URL = "https://web-production-54845.up.railway.app/"
 
 st.set_page_config(
     page_title="Diabetic Prediction System",
