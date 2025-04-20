@@ -6,7 +6,7 @@ import time
 API_URL = "http://localhost:5000"
 
 st.set_page_config(
-    page_title="Diabetic App",
+    page_title="Diabetic Prediction System",
     page_icon="🩺",
     initial_sidebar_state="collapsed"  
 )
@@ -125,17 +125,15 @@ def prediction_page():
                         unsafe_allow_html=True
                     )
             else:
-                st.error("❌ Failed to get prediction from server. Try again.")
+                st.error(" Failed to get prediction from server. Try again.")
         except Exception as e:
-            st.error(f"❌ Failed to connect to backend: {e}")
+            st.error(f" Failed to connect to backend: {e}")
 
 # ------------------- Questions Page -------------------
 def questions_page():
     st.markdown("<h1 style='text-align:center;'> 🔍Follow-up Questions </h1>", unsafe_allow_html=True)
     
     if st.session_state.show_loading:
-        
-        #with st.spinner(""):
         st.markdown(
         """
         <div style="display: flex; justify-content: center; align-items: center; height: 200px; flex-direction: column;">
@@ -157,7 +155,6 @@ def questions_page():
         st.session_state.show_loading = False
         st.rerun()
 
-    # Start question system
     if st.session_state.current_question == "":
         try:
             res = requests.post(f"{API_URL}/next-question", json={})
@@ -234,12 +231,10 @@ def questions_page():
                 else:
                     st.error("An error occurred while analyzing the answers.")
 
-    # Show advice
     if st.session_state.advice:
         st.markdown("<h3 style='text-align:center;'>🩺 Personalized Advice Based on Your Case:</h3>", unsafe_allow_html=True)
         st.success(st.session_state.advice)
 
-    # Back button
     col7, col8, col9 = st.columns([1,1.2,1])
     with col8:
         if st.button("↩️ Back to Prediction Page", key="back_btn"):
@@ -248,13 +243,11 @@ def questions_page():
 
 
 # ----------------- Chatbot State Setup -----------------
-# Session states
 if "chat_open" not in st.session_state:
     st.session_state.chat_open = False
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-# CSS for floating chat icon
 st.markdown("""
     <style>
     .icon-button {
@@ -361,6 +354,7 @@ def chatbot_page():
                         "bot": bot_reply
                     })
                     st.rerun()
+
 
 # ------------------- Main App Logic -------------------
 if st.session_state.chat_open:
