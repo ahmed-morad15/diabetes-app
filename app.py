@@ -5,7 +5,7 @@ import requests
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import io
-
+import os
 app = Flask(__name__)
 
 # ============ 1. ML DIABETES PREDICTION =================
@@ -81,7 +81,7 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 # ============ 4. LLM CONFIG (OpenRouter API) ============
-API_KEY = "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"
+API_KEY = "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"
 MODEL_NAME = "mistralai/mistral-7b-instruct"
 LLM_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -209,7 +209,7 @@ def chat():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 # ============ 8. Run the App ============================
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
