@@ -9,16 +9,13 @@ import io
 app = Flask(__name__)
 
 # ============ 1. ML DIABETES PREDICTION =================
-# GitHub URLs for downloading the model and dataset
 model_url = "https://github.com/ahmed-morad15/diabetes-app/raw/main/Diabetes_Prediction_Model.pkl"
 dataset_url = "https://github.com/ahmed-morad15/diabetes-app/raw/main/preprocessed_diabetes_data.csv"
 
-# Download the model from GitHub
 try:
     response = requests.get(model_url)
     if response.status_code == 200:
-        # Save the model content to a file-like object and load it with joblib
-        model = joblib.load(io.BytesIO(response.content))  # Load model from byte stream
+        model = joblib.load(io.BytesIO(response.content))  
     else:
         print(f"Failed to download the model: {response.status_code}")
         model = None
@@ -26,21 +23,17 @@ except Exception as e:
     print(f"Error loading model: {e}")
     model = None
 
-# Download the dataset and scaler
 try:
     response = requests.get(dataset_url)
     if response.status_code == 200:
-        # Save the dataset locally to load it using pandas
         with open("preprocessed_diabetes_data.csv", "wb") as f:
             f.write(response.content)
         
-        # Now load the dataset using pandas
         data = pd.read_csv("preprocessed_diabetes_data.csv")
-        
-        # Initialize the scaler
+
         scaler = StandardScaler()
         numerical_features = ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level']
-        scaler.fit(data[numerical_features])  # Fit the scaler using the data
+        scaler.fit(data[numerical_features])  
     else:
         print(f"Failed to download the dataset: {response.status_code}")
         data = None
@@ -55,16 +48,13 @@ def predict_diabetes(input_data):
     if model is None or scaler is None:
         return None
     try:
-        # Convert the input data into array format
         features = np.array([input_data[key] for key in [
             "gender", "age", "hypertension", "heart_disease",
             "smoking_history", "bmi", "HbA1c_level", "blood_glucose_level"
         ]], dtype=np.float32).reshape(1, -1)
 
-        # Scale the numerical values using the scaler
-        scaled_features = scaler.transform(features[:, 4:])  # Scale only the numerical features
+        scaled_features = scaler.transform(features[:, 4:])  
 
-        # Combine the categorical values with the scaled numerical values
         full_features = np.concatenate((
             features[:, :4],  
             scaled_features.flatten().reshape(1, -1)  
@@ -76,7 +66,6 @@ def predict_diabetes(input_data):
         return str(e)
 
 # ============ 3. ENDPOINT: Predict Diabetes =============
-
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
@@ -87,13 +76,12 @@ def predict():
         result = predict_diabetes(data)
         if result is None:
             return jsonify({"error": "Model not loaded or prediction failed"}), 500
-        return jsonify({"diabetes_prediction": result})  # 1 = Diabetic, 0 = Healthy
+        return jsonify({"diabetes_prediction": result})  
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-
 # ============ 4. LLM CONFIG (OpenRouter API) ============
-API_KEY = "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"
+API_KEY = "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"
 MODEL_NAME = "mistralai/mistral-7b-instruct"
 LLM_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
@@ -113,7 +101,6 @@ def call_llm(prompt):
         return res.json()['choices'][0]['message']['content']
     except requests.exceptions.RequestException as e:
         return f"Error with LLM API: {e}"
-
 
 # ============ 5. ENDPOINT: Next Question ================
 @app.route('/next-question', methods=['POST'])
@@ -156,7 +143,6 @@ def next_question():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 # ============ 6. ENDPOINT: Generate Personalized Advice ==
 @app.route('/generate-advice', methods=['POST'])
 def generate_advice():
@@ -189,7 +175,6 @@ def generate_advice():
 
      Focus on clear, actionable advice that helps the patient manage diabetes effectively.
     """
-
     try:
         advice = call_llm(prompt)
         return jsonify({"advice": advice.strip()})
@@ -197,7 +182,6 @@ def generate_advice():
         return jsonify({"error": str(e)}), 500
     
 # ============ 7. ENDPOINT: ChatBot Message ===============
-
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get("message", "")
