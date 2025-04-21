@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import time
 
-# API URL
 API_URL = "https://web-production-54845.up.railway.app/"
 
 st.set_page_config(
@@ -11,7 +10,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"  
 )
 
-# Initial session state setup
 if "qa_history" not in st.session_state:
     st.session_state.qa_history = []
 
@@ -33,7 +31,6 @@ if "show_loading" not in st.session_state:
 # ------------------- Prediction Page -------------------
 def prediction_page():
     st.markdown("<h1 style='text-align:center;'>🧬 Diabetic Prediction System </h1>", unsafe_allow_html=True)
-
     with st.form("prediction_form"):
         st.subheader("📋 Enter Your Health Data") 
         name = st.text_input("Enter Name")
@@ -46,9 +43,29 @@ def prediction_page():
         HbA1c_level = st.number_input("HbA1c Level", min_value=3.5, max_value=9.0, value=5.5, step=0.1)
         blood_glucose_level = st.number_input("Blood Glucose Level", min_value=80, max_value=300, value=140, step=1)
 
-        col1,col2,col3,col4,col5 = st.columns([1,1,1,1,1])
+        col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
         with col3:
             submitted = st.form_submit_button("🎯 Predict")
+    if not submitted:
+        st.markdown("""
+        <div style='display: flex; justify-content: center; margin-top: 20px;'>
+            <form action="https://sugapredict.web.app/" method="get">
+                <button type="submit" style='
+                    padding: 10px 20px; 
+                    font-size: 18px; 
+                    background-color: transparent; 
+                    color: white; 
+                    border: 2px solid gray; 
+                    border-radius: 8px; 
+                    cursor: pointer;
+                    width: 250px;
+                '>
+                    🏠 Go To Home Page
+                </button>
+            </form>
+        </div>
+        """, 
+        unsafe_allow_html=True)
 
     if submitted:
         gender_numeric = 1 if gender == "Male" else 0
@@ -99,7 +116,6 @@ def prediction_page():
                 )
 
                 st.markdown(f"<h3 style='text-align:center; color: {'red' if result == 'Diabetic' else 'green'};'>Prediction: {result}</h3>", unsafe_allow_html=True)
-
                 message = "🩺 Take Care of your Health, Have a NICE Day" if result == "Diabetic" else "🎉 Congrats! You Seem Healthy, Have a NICE Day"
                 st.markdown(f"<h4 style='text-align:center;'>{message}</h4>", unsafe_allow_html=True)
 
@@ -115,6 +131,7 @@ def prediction_page():
                     st.session_state.show_loading = True
                     st.session_state.current_page = "questions_page"
                     st.rerun()
+                    
                 else:
                     st.markdown(
                         """
@@ -127,7 +144,27 @@ def prediction_page():
             else:
                 st.error(" Failed to get prediction from server. Try again.")
         except Exception as e:
-            st.error(f" Failed to connect to backend: {e}")
+            st.error(f" Failed to connect to backend: {e }")
+
+        st.markdown("""
+        <div style='display: flex; justify-content: center; margin-top: 20px;'>
+            <form action="https://sugapredict.web.app/" method="get">
+                <button type="submit" style='
+                    padding: 10px 20px; 
+                    font-size: 18px; 
+                    background-color: transparent; 
+                    color: white; 
+                    border: 2px solid gray; 
+                    border-radius: 8px; 
+                    cursor: pointer;
+                    width: 250px;
+                '>
+                    🏠 Go To Home Page
+                </button>
+            </form>
+        </div>
+        """, 
+        unsafe_allow_html=True)
 
 # ------------------- Questions Page -------------------
 def questions_page():
@@ -180,23 +217,20 @@ def questions_page():
           <b>Question:</b> <br>
         {question}
     </div>
-""".format(question=st.session_state.current_question), unsafe_allow_html=True)
+    """.format(question=st.session_state.current_question), unsafe_allow_html=True)
 
     user_answer = st.text_input("✍️ Your Answer:", key="answer_input", placeholder="Enter your Answer here...")
 
-    col0,col10,col1, = st.columns([2,1,2])
+    col0,col10,col1, = st.columns([5,4,2])
     with col10:
         if st.button("Next", key="next_btn"):
             if user_answer.strip() == "":
-                st.warning("Please enter an answer.")
+                st.markdown('<span style="color:#4B4B4B; font-weight:bold;">❗answer</span>', unsafe_allow_html=True)
             else:
-                # Save Q&A
                 st.session_state.qa_history.append({
                     "question": st.session_state.current_question,
                     "answer": user_answer
                 })
-
-                # Request next question from API
                 res = requests.post(f"{API_URL}/next-question", json={
                     "last_question": st.session_state.current_question,
                     "last_answer": user_answer
@@ -208,14 +242,13 @@ def questions_page():
                 else:
                     st.error("Failed to generate next question.")
 
-    # Display Q&A history
     if st.session_state.qa_history:
         with st.expander("📚 Question & Answer History"):
             for i, qa in enumerate(st.session_state.qa_history):
                 st.markdown(f"**Q{i+1}:** {qa['question']}")
                 st.markdown(f"**A{i+1}:** {qa['answer']}")
 
-    col4, col5, col6 = st.columns([1.1,1.8,1.1])
+    col4, col5, col6 = st.columns([1.2,1.5,1.1])
     with col5:
         if st.button("📋 Analyze Answers and Get Advice", key="analyze_btn"):
             if len(st.session_state.qa_history) < 3:
@@ -235,12 +268,49 @@ def questions_page():
         st.markdown("<h3 style='text-align:center;'>🩺 Personalized Advice Based on Your Case:</h3>", unsafe_allow_html=True)
         st.success(st.session_state.advice)
 
-    col7, col8, col9 = st.columns([1,1.2,1])
+    col7, col8, col9 = st.columns([1,8, 1])
     with col8:
-        if st.button("↩️ Back to Prediction Page", key="back_btn"):
-            st.session_state.current_page = "prediction_page"
-            st.rerun()
+        col_left, col_right = st.columns([1, 1])
 
+        with col_left:
+            st.markdown("""
+                <div style='text-align: center;'>
+                    <form>
+                        <button type="submit" style='
+                            width: 100%;
+                            padding: 10px 20px; 
+                            font-size: 18px; 
+                            background-color: transparent; 
+                            color: white; 
+                            border: 2px solid gray; 
+                            border-radius: 8px; 
+                            cursor: pointer;
+                        ' formaction="#">
+                            ↩️ Back to Prediction Page
+                        </button>
+                    </form>
+                </div>
+            """, unsafe_allow_html=True)
+
+        with col_right:
+            st.markdown("""
+                <div style='text-align: center;'>
+                    <form action="https://sugapredict.web.app/" method="get">
+                        <button type="submit" style='
+                            width: 100%;
+                            padding: 10px 20px; 
+                            font-size: 18px; 
+                            background-color: transparent; 
+                            color: white; 
+                            border: 2px solid gray; 
+                            border-radius: 8px; 
+                            cursor: pointer;
+                        '>
+                            🏠 Go To Home Page
+                        </button>
+                    </form>
+                </div>
+            """, unsafe_allow_html=True)
 
 # ----------------- Chatbot State Setup -----------------
 if "chat_open" not in st.session_state:
@@ -269,7 +339,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Fake button using markdown + Streamlit button for functionality
 col1, col2 = st.columns([0.9, 0.1])
 with col2:
     if st.button("💬", key="chat_toggle", help="Open chat", use_container_width=True):
@@ -298,14 +367,12 @@ def chatbot_page():
     max-width: 650px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
 .chat-message {
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.0); 
 }
-
 .user-msg {
     color: #1a73e8;
     font-weight: bold;
@@ -313,7 +380,6 @@ def chatbot_page():
     padding-left: 10px;
     background-color: rgba(26, 115, 232, 0.05); 
 }
-
 .bot-msg {
     color: #2e7d32;
     font-weight: bold;
@@ -333,7 +399,7 @@ def chatbot_page():
             st.markdown(f'<div class="chat-message"><span class="bot-msg">🤖 Bot:</span> {entry["bot"]}</div>', unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
-
+        
         user_input = st.text_input("💬 Type your message", key="chat_input")
 
         col1, col2, col3,col4, col5 = st.columns([1, 1,1,1, 1]) 
@@ -354,8 +420,7 @@ def chatbot_page():
                         "bot": bot_reply
                     })
                     st.rerun()
-
-
+                    
 # ------------------- Main App Logic -------------------
 if st.session_state.chat_open:
     chatbot_page()
