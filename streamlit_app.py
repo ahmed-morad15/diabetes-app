@@ -48,7 +48,7 @@ def prediction_page():
             submitted = st.form_submit_button("🎯 Predict")
     if not submitted:
         st.markdown("""
-        <div style='text-align: center;'>
+        <div style='display: flex; justify-content: center; margin-top: 20px;'>
             <a href="https://sugapredict.web.app/" target="_blank">
                 <button style='
                     padding: 10px 20px; 
@@ -146,7 +146,7 @@ def prediction_page():
             st.error(f" Failed to connect to backend: {e }")
 
         st.markdown("""
-        <div style='text-align: center;'>
+        <div style='display: flex; justify-content: center; margin-top: 20px;'>
             <a href="https://sugapredict.web.app/" target="_blank">
                 <button style='
                     padding: 10px 20px; 
@@ -272,7 +272,7 @@ def questions_page():
 
         with col_left:
             st.markdown("""
-                <div style='text-align: center;'>
+                <div style='display: flex; justify-content: center; margin-top: 20px;'>
                     <form>
                         <button type="submit" style='
                             width: 100%;
@@ -292,7 +292,7 @@ def questions_page():
 
         with col_right:
             st.markdown("""
-                <div style='text-align: center;'>
+                <div style='display: flex; justify-content: center; margin-top: 20px;'>
                     <a href="https://sugapredict.web.app/" target="_blank">
                         <button type="submit" style='
                             width: 100%;
