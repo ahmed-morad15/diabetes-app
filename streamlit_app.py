@@ -48,9 +48,9 @@ def prediction_page():
             submitted = st.form_submit_button("🎯 Predict")
     if not submitted:
         st.markdown("""
-        <div style='display: flex; justify-content: center; margin-top: 20px;'>
-            <form action="https://sugapredict.web.app/" method="get">
-                <button type="submit" style='
+        <div style='text-align: center;'>
+            <a href="https://sugapredict.web.app/" target="_blank">
+                <button style='
                     padding: 10px 20px; 
                     font-size: 18px; 
                     background-color: transparent; 
@@ -58,14 +58,13 @@ def prediction_page():
                     border: 2px solid gray; 
                     border-radius: 8px; 
                     cursor: pointer;
-                    width: 250px;
                 '>
                     🏠 Go To Home Page
                 </button>
-            </form>
+            </a>
         </div>
-        """, 
-        unsafe_allow_html=True)
+    """, 
+    unsafe_allow_html=True)
 
     if submitted:
         gender_numeric = 1 if gender == "Male" else 0
@@ -147,9 +146,9 @@ def prediction_page():
             st.error(f" Failed to connect to backend: {e }")
 
         st.markdown("""
-        <div style='display: flex; justify-content: center; margin-top: 20px;'>
-            <form action="https://sugapredict.web.app/" method="get">
-                <button type="submit" style='
+        <div style='text-align: center;'>
+            <a href="https://sugapredict.web.app/" target="_blank">
+                <button style='
                     padding: 10px 20px; 
                     font-size: 18px; 
                     background-color: transparent; 
@@ -157,14 +156,13 @@ def prediction_page():
                     border: 2px solid gray; 
                     border-radius: 8px; 
                     cursor: pointer;
-                    width: 250px;
                 '>
                     🏠 Go To Home Page
                 </button>
-            </form>
+            </a>
         </div>
-        """, 
-        unsafe_allow_html=True)
+    """, 
+    unsafe_allow_html=True)
 
 # ------------------- Questions Page -------------------
 def questions_page():
@@ -295,7 +293,7 @@ def questions_page():
         with col_right:
             st.markdown("""
                 <div style='text-align: center;'>
-                    <form action="https://sugapredict.web.app/" method="get">
+                    <a href="https://sugapredict.web.app/" target="_blank">
                         <button type="submit" style='
                             width: 100%;
                             padding: 10px 20px; 
@@ -308,7 +306,7 @@ def questions_page():
                         '>
                             🏠 Go To Home Page
                         </button>
-                    </form>
+                    </a>
                 </div>
             """, unsafe_allow_html=True)
 
