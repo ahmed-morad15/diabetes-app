@@ -49,7 +49,7 @@ def prediction_page():
     if not submitted:
         st.markdown("""
         <div style='display: flex; justify-content: center; margin-top: 20px;'>
-            <a href="https://sugapredict.web.app/" target="_blank">
+            <a href="https://ahmedshmees.github.io/Diabetes-prediction-app" target="_blank">
                 <button style='
                     padding: 10px 20px; 
                     font-size: 18px; 
@@ -147,7 +147,7 @@ def prediction_page():
 
         st.markdown("""
         <div style='display: flex; justify-content: center; margin-top: 20px;'>
-            <a href="https://sugapredict.web.app/" target="_blank">
+            <a href="https://ahmedshmees.github.io/Diabetes-prediction-app" target="_blank">
                 <button style='
                     padding: 10px 20px; 
                     font-size: 18px; 
@@ -293,7 +293,7 @@ def questions_page():
         with col_right:
             st.markdown("""
                 <div style='display: flex; justify-content: center; margin-top: 20px;'>
-                    <a href="https://sugapredict.web.app/" target="_blank">
+                    <a href="https://ahmedshmees.github.io/Diabetes-prediction-app" target="_blank">
                         <button type="submit" style='
                             width: 100%;
                             padding: 10px 20px; 
