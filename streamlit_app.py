@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import time
 
-API_URL = "https://web-production-54845.up.railway.app/"
+API_URL = "https://web-production-5783e.up.railway.app/"
 
 st.set_page_config(
     page_title="Diabetic Prediction System",
