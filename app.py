@@ -81,7 +81,7 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 # ============ 4. LLM CONFIG (OpenRouter API) ============
-API_KEY = "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"
+API_KEY = "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"
 MODEL_NAME = "mistralai/mistral-7b-instruct"
 LLM_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
