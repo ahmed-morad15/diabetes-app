@@ -89,6 +89,7 @@ def prediction_page():
             "HbA1c_level": HbA1c_level,
             "blood_glucose_level": blood_glucose_level
         }
+        st.session_state.medical_data = payload
 
         try:
             response = requests.post(f"{API_URL}/predict", json=payload)
@@ -253,7 +254,8 @@ def questions_page():
                 st.markdown('<span style="color:#4B4B4B; font-weight:bold;">❗❗ Please answer at least 3 questions.</span>', unsafe_allow_html=True)
             else:
                 res = requests.post(f"{API_URL}/generate-advice", json={
-                    "qa_history": st.session_state.qa_history
+                    "qa_history": st.session_state.qa_history,
+                     "medical_data": st.session_state.get("medical_data", {}) 
                 })
 
                 if res.status_code == 200:
